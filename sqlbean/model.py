@@ -97,7 +97,9 @@ class Model(object):
                     self._changed.add(name)
                 else:
                     if value is not None:
-                        value = type(dc_value)(value)
+			#cast only if types differ, otherwise datetime(var_datetime) crashes
+			if type(dc_value) != type(value):
+			    value = type(dc_value)(value)
                     if dc_value != value:
                         self._changed.add(name)
         dc[name] = value
